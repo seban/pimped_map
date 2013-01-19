@@ -2,6 +2,8 @@ require 'thread'
 
 module PimpedMap
 
+  autoload :Future, 'pimped_map/future'
+
   def self.pimp!
     Array.class_eval do
       include PimpedMap::Pimp
@@ -12,10 +14,10 @@ module PimpedMap
   module Pimp
 
     def pmap(&block)
-      threads = map do |element|
-        Thread.new { yield element }
+      futures = map do |element|
+        PimpedMap::Future.new(element, &block)
       end
-      threads.map { |thr| thr.join.value }
+      futures.map { |fut| fut.value }
     end
 
   end

@@ -2,7 +2,7 @@ pimped_map
 ==========
 
 Pimp your map!
-  
+
   ```ruby
   1.9.3-p327 :001 > require 'pimped_map'
    => true
@@ -15,3 +15,13 @@ Pimp your map!
   1.9.3-p327 :005 > Benchmark.measure { [1,2,3,4].pmap { |e| sleep e } }
    =>   0.000000   0.010000   0.010000   4.001741
   ```ruby
+
+PimpedMap also gives you Future class which you can use:
+
+  ```ruby
+  futurum = PimpedMap::Future.new(2) { |n| sleep n ; n + 10 }
+  futurum.value
+  ```ruby
+
+Execution of passed block will be handle in thread. Calling value method on future object will
+block till thread end his work.

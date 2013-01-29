@@ -3,13 +3,14 @@ require 'thread'
 module PimpedMap
 
   autoload :Future, 'pimped_map/future'
+  autoload :ThreadPool, 'pimped_map/thread_pool'
 
   def self.pimp!
     Array.class_eval do
       include PimpedMap::Pimp
     end
+    PimpedMap::Future.internal_pool = PimpedMap::ThreadPool.new(10)
   end
-
 
   module Pimp
 

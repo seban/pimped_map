@@ -5,11 +5,12 @@ module PimpedMap
   autoload :Future, 'pimped_map/future'
   autoload :ThreadPool, 'pimped_map/thread_pool'
 
-  def self.pimp!
+  def self.pimp!(options = {})
+    pool_size = options.fetch :pool_size, 4
     Array.class_eval do
       include PimpedMap::Pimp
     end
-    PimpedMap::Future.internal_pool = PimpedMap::ThreadPool.new(10)
+    PimpedMap::Future.internal_pool = PimpedMap::ThreadPool.new(pool_size)
   end
 
   module Pimp
